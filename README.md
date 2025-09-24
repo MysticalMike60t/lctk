@@ -1,2 +1,1 @@
-# lctk
-Linux Configuration Toolkit
+# Linux Configuration Toolkit (LCTK)
