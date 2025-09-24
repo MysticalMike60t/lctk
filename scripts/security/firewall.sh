@@ -75,7 +75,6 @@ while true; do
                     break
                 fi
 
-            # Enable and configure UFW
             sudo systemctl enable ufw
             sudo systemctl start ufw
             sudo ufw --force enable
@@ -144,7 +143,6 @@ while true; do
                 echo "❌ Error: No supported package manager found!"
             fi
 
-            # Enable and start iptables service (where applicable)
             sudo systemctl enable iptables >/dev/null 2>&1
             sudo systemctl start iptables >/dev/null 2>&1
             break
