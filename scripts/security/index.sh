@@ -9,7 +9,8 @@ while true; do
     echo "Security Options"
     echo ""
     echo "1) Disable root login via SSH"
-    echo "2) Back"
+    echo "2) Firewall options"
+    echo "3) Back"
     echo ""
     read -p "Please enter your choice: " choice
     
@@ -19,6 +20,10 @@ while true; do
             break
             ;;
         2)
+            sudo sh "$WORKING_DIR/firewall.sh"
+            break
+            ;;
+        3)
             sudo sh "$WORKING_DIR/../../start.sh"
             break
             ;;

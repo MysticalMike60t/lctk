@@ -30,85 +30,85 @@ while true; do
         1)
             echo "Updating system..."
             sudo apt update && sudo apt full-upgrade -y
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         2)
             echo "Updating system..."
             sudo pacman -Syu --noconfirm
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         3)
             echo "Updating system..."
             sudo dnf upgrade --refresh -y
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         4)
             echo "Updating system..."
             sudo yum update -y
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         5)
             echo "Updating system..."
             sudo zypper refresh && sudo zypper update -y
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         6)
             echo "Updating system..."
             sudo apk update && sudo apk upgrade
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         7)
             echo "Updating system..."
             sudo emerge --sync && sudo emerge -uUD @world
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         8)
             echo "Updating system..."
             sudo xbps-install -Suv
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         9)
             echo "Updating system..."
             sudo eopkg upgrade
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         10)
             echo "Updating system..."
             sudo slackpkg update && sudo slackpkg upgrade-all
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         11)
             echo "Updating system..."
             sudo nix-channel --update && sudo nix-env -u --always
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         12)
             echo "Updating system..."
             sudo nixos-rebuild switch --upgrade
-            sudo sh "$WORKING_DIR/index.sh"
             sleep 1;
+            sudo sh "$WORKING_DIR/index.sh"
             break
             ;;
         13)
