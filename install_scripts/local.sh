@@ -34,6 +34,15 @@ while true; do
                 sleep 2
                 exit 0
             fi
+            sudo cp -r "$WORKING_DIR/lib" "/usr/local/bin/lctk/lib"
+            if [ -e /usr/local/bin/lctk/lib ]
+            then
+                echo "Installed lib to /usr/local/bin/lctk/lib"
+            else
+                echo "Failed to install lib"
+                sleep 2
+                exit 0
+            fi
             sudo cp -r "$WORKING_DIR/start.sh" "/usr/local/bin/lctk/start.sh"
             if [ -e /usr/local/bin/lctk/start.sh ]
             then
@@ -45,6 +54,7 @@ while true; do
             fi
             chmod +x /usr/local/bin/lctk/start.sh
             chmod +x /usr/local/bin/lctk/scripts/*/*.sh
+            chmod +x /usr/local/bin/lctk/lib/*/*.sh
             sudo ln -s /usr/local/bin/lctk/start.sh /usr/local/bin/lctk-start
             break
             ;;

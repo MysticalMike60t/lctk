@@ -2,19 +2,22 @@
 
 clear
 
+. "$(dirname "$(readlink -f "$0")")/../../lib/styles.sh"
+. "$(dirname "$(readlink -f "$0")")/../../lib/colors.sh"
+
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 WORKING_DIR="$SCRIPT_DIR"
 
 while true; do
     echo "Storage Options"
     echo ""
-    echo "1) Back"
+    echo "  $(colored_text "0) Back" red)"
     echo ""
     read -p "Please enter your choice: " choice
     
     case $choice in
-        1)
-            sudo sh "$WORKING_DIR/../../start.sh"
+        0)
+            sudo bash "$WORKING_DIR/../../start.sh"
             break
             ;;
         *)

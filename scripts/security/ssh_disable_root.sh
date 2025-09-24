@@ -2,11 +2,14 @@
 
 clear
 
-echo "Disabling root login via SSH..."
+. "$(dirname "$(readlink -f "$0")")/../../lib/styles.sh"
+. "$(dirname "$(readlink -f "$0")")/../../lib/colors.sh"
+
+echo "$(colored_text "Disabling root login via SSH..." green)"
 echo ""
 
 if ! command -v sshd >/dev/null; then
-    echo "OpenSSH server not found — installing..."
+    echo "$(colored_text "OpenSSH server not found — installing..." red)"
     if command -v apt >/dev/null; then
         sudo apt update && sudo apt install openssh-server -y
     elif command -v dnf >/dev/null; then
@@ -28,25 +31,25 @@ if ! command -v sshd >/dev/null; then
     elif command -v slackpkg >/dev/null; then
         sudo slackpkg update && sudo slackpkg install openssh
     else
-        echo "Error: No supported package manager found!"
+        echo "$(colored_text "Error: No supported package manager found!" red)"
         exit 1
     fi
 else
-    echo "OpenSSH server is already installed."
+    echo "$(colored_text "OpenSSH server is already installed." yellow)"
 fi
 
 # Disable root login
-echo "Disabling root login in SSH config..."
+echo "$(colored_text "Disabling root login in SSH config..." green)"
 sudo sed -i 's/#\?PermitRootLogin\s\+.*/PermitRootLogin no/' /etc/ssh/sshd_config
 
 # Restart SSH service (name can vary)
-echo "Restarting SSH service..."
+echo "$(colored_text "Restarting SSH service..." green)"
 if systemctl list-units --type=service | grep -q sshd.service; then
     sudo systemctl restart sshd
 elif systemctl list-units --type=service | grep -q ssh.service; then
     sudo systemctl restart ssh
 else
-    echo "Could not detect SSH service name, please restart manually."
+    echo "$(colored_text "Could not detect SSH service name, please restart manually." red)"
 fi
 
-echo "SSH configuration updated — root login is now disabled."
+echo "$(colored_text "SSH configuration updated — root login is now disabled." red)"

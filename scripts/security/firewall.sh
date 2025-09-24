@@ -2,28 +2,31 @@
 
 clear
 
+. "$(dirname "$(readlink -f "$0")")/../../lib/styles.sh"
+. "$(dirname "$(readlink -f "$0")")/../../lib/colors.sh"
+
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 WORKING_DIR="$SCRIPT_DIR"
 
 FILENAME=$(basename "$0")
 
-. "$SCRIPT_DIR/../../lib/styles.sh"
-
 while true; do
     echo "Security Options"
     echo ""
-    echo "  1) Install and enable UFW (Uncomplicated Firewall)"
-    echo "  2) Enable outgoing and disable incoming connections"
-    echo "  3) Install and enable iptables"
-    echo "  4) Configure iptables (Basic)"
+    echo "  $(colored_text "Install" magenta)"
+    echo "      1) Install and enable UFW (Uncomplicated Firewall)"
+    echo "      2) Install and enable iptables"
+    echo "  $(colored_text "Configure" cyan)"
+    echo "      3) Enable outgoing and disable incoming connections"
+    echo "      4) Configure iptables (Basic)"
     echo ""
-    echo "  ${FG_RED}m5) Back${RESET_ALL}"
+    echo "  $(colored_text "0) Back" red)"
     echo ""
     read -p "Please enter your choice: " choice
     
     case $choice in
         1)
-            echo "Installing and enabling UFW..."
+            echo "$(colored_text "Installing and enabling UFW..." green)"
                 if command -v apt >/dev/null; then
                     echo "Detected: APT (Debian/Ubuntu)"
                     sudo apt update && sudo apt install ufw -y
@@ -77,20 +80,11 @@ while true; do
             sudo systemctl start ufw
             sudo ufw --force enable
 
-            echo "Finished installing and configuring basic UFW."
+            echo "$(colored_text "Finished installing and configuring basic UFW." green)"
             break
             ;;
         2)
-
-            sudo ufw default deny incoming
-            sudo ufw default allow outgoing
-            sudo ufw allow OpenSSH
-            sleep 1;
-            sudo sh "$WORKING_DIR/$FILENAME"
-            break
-            ;;
-        3)
-            echo "Installing and enabling iptables..."
+            echo "$(colored_text "Installing and enabling iptables..." green)"
             if command -v apt >/dev/null; then
                 echo "Detected: APT (Debian/Ubuntu)"
                 sudo apt update && sudo apt install iptables iptables-persistent -y
@@ -145,6 +139,15 @@ while true; do
             sudo systemctl start iptables >/dev/null 2>&1
             break
             ;;
+        3)
+
+            sudo ufw default deny incoming
+            sudo ufw default allow outgoing
+            sudo ufw allow OpenSSH
+            sleep 1;
+            sudo bash "$WORKING_DIR/$FILENAME"
+            break
+            ;;
         4)
             sudo iptables -A INPUT -i lo -j ACCEPT
             sudo iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED
@@ -152,12 +155,12 @@ while true; do
             sudo iptables -A INPUT -j REJECT --reject-with icmp-host-unreachable
             break
             ;;
-        5)
-            sudo sh "$WORKING_DIR/../../start.sh"
+        0)
+            sudo bash "$WORKING_DIR/index.sh"
             break
             ;;
         *)
-            echo "Invalid option. Please try again."
+            echo "$(colored_text "Invalid option. Please try again." red)"
             sleep 1
             clear
             ;;

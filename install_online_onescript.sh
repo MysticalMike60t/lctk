@@ -14,7 +14,7 @@ while true; do
     echo "Install to:"
     echo ""
     echo "1) /usr/local/bin/lctk"
-    echo "2) Cancel"
+    echo "0) Cancel"
     echo ""
     read -p "Please enter your choice: " choice
     
@@ -42,10 +42,11 @@ while true; do
             sudo rm -rf /usr/local/bin/lctk/.git
             chmod +x /usr/local/bin/lctk/start.sh
             chmod +x /usr/local/bin/lctk/scripts/*/*.sh
+            chmod +x /usr/local/bin/lctk/lib/*/*.sh
             sudo ln -s /usr/local/bin/lctk/start.sh /usr/local/bin/lctk-start
             break
             ;;
-        2)
+        0)
             exit 0
             break
             ;;
