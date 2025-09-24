@@ -2,24 +2,22 @@
 
 clear
 
-echo "Checking for curl..."
-which curl &> /dev/null || sudo apt install curl
-
-clear
-
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 WORKING_DIR="$SCRIPT_DIR"
 
 FILENAME=$(basename "$0")
 
+. "$SCRIPT_DIR/../../lib/styles.sh"
+
 while true; do
     echo "Security Options"
     echo ""
-    echo "1) Install and enable UFW (Uncomplicated Firewall)"
-    echo "2) Enable outgoing and disable incoming connections"
-    echo "3) Install and enable iptables"
-    echo "4) Configure iptables (Basic)"
-    echo "5) Back"
+    echo "  1) Install and enable UFW (Uncomplicated Firewall)"
+    echo "  2) Enable outgoing and disable incoming connections"
+    echo "  3) Install and enable iptables"
+    echo "  4) Configure iptables (Basic)"
+    echo ""
+    echo "  ${FG_RED}m5) Back${RESET_ALL}"
     echo ""
     read -p "Please enter your choice: " choice
     

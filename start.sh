@@ -5,14 +5,17 @@ clear
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 WORKING_DIR="$SCRIPT_DIR/scripts"
 
+. "$SCRIPT_DIR/lib/styles.sh"
+
 while true; do
     echo "Linux Configuration Toolkit"
     echo ""
-    echo "1) Package Options"
-    echo "2) Security Options"
-    echo "3) Storage Options"
-    echo "4) Network Options"
-    echo "5) Quit"
+    echo -e "   ${FG_YELLOW}m1) Package Options${RESET_ALL}"
+    echo -e "   ${FG_YELLOW}m2) Security Options${RESET_ALL}"
+    echo -e "   ${FG_YELLOW}m3) Storage Options${RESET_ALL}"
+    echo -e "   ${FG_YELLOW}m4) Network Options${RESET_ALL}"
+    echo ""
+    echo -e "   ${FG_RED}m5) Quit${RESET_ALL}"
     echo ""
     read -p "Please enter your choice: " choice
     
