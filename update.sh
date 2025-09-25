@@ -59,14 +59,32 @@ while true; do
                     exit 0
                 fi
 
-                echo "Downloading latest version..."
-                curl -L -o "$WORKING_DIR/lctk.zip" "https://github.com/MysticalMike60t/lctk/archive/refs/heads/main.zip"
                 if [ -e /usr/local/bin/lctk-main ]
                 then
                     sudo rm -rf /usr/local/bin/lctk-main
+                else
+                    echo "/usr/local/bin/lctk-main does not exist, continuing..."
                 fi
-                unzip "$WORKING_DIR/lctk.zip" -d "/usr/local/bin/"
-                sudo cp -r /usr/local/bin/lctk-main /usr/local/bin/lctk/
+
+                echo "Downloading latest version..."
+                # Ensure we can write to the working directory, use /tmp if not
+                if [ ! -w "$WORKING_DIR" ]; then
+                    WORKING_DIR="/tmp"
+                fi
+                curl -L -o "$WORKING_DIR/lctk.zip" "https://github.com/MysticalMike60t/lctk/archive/refs/heads/main.zip"
+                if [ ! -f "$WORKING_DIR/lctk.zip" ]; then
+                    echo "Failed to download LCTK archive"
+                    sleep 2
+                    exit 1
+                fi
+                sudo unzip "$WORKING_DIR/lctk.zip" -d "/usr/local/bin/"
+                if [ ! -d "/usr/local/bin/lctk-main" ]; then
+                    echo "Failed to extract LCTK archive"
+                    sudo rm -f "$WORKING_DIR/lctk.zip"
+                    sleep 2
+                    exit 1
+                fi
+                sudo cp -r /usr/local/bin/lctk-main /usr/local/bin/lctk
                 if [ -e /usr/local/bin/lctk ]
                 then
                     echo "Created /usr/local/bin/lctk"
@@ -82,11 +100,11 @@ while true; do
                 sudo rm -rf /usr/local/bin/lctk/README.md
                 sudo rm -rf /usr/local/bin/lctk/install_scripts
                 sudo rm -rf /usr/local/bin/lctk/.git
-                chmod +x /usr/local/bin/lctk/start.sh
-                chmod +x /usr/local/bin/lctk/uninstall.sh
-                chmod +x /usr/local/bin/lctk/update.sh
-                chmod +x /usr/local/bin/lctk/scripts/*/*.sh
-                chmod +x /usr/local/bin/lctk/lib/*.sh
+                sudo chmod +x /usr/local/bin/lctk/start.sh
+                sudo chmod +x /usr/local/bin/lctk/uninstall.sh
+                sudo chmod +x /usr/local/bin/lctk/update.sh
+                sudo chmod +x /usr/local/bin/lctk/scripts/*/*.sh
+                sudo chmod +x /usr/local/bin/lctk/lib/*.sh
                 sudo ln -s /usr/local/bin/lctk/start.sh /usr/local/bin/lctk-start
                 sudo ln -s /usr/local/bin/lctk/update.sh /usr/local/bin/lctk-update
             else
