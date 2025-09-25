@@ -53,10 +53,31 @@ while true; do
                 sleep 2
                 exit 0
             fi
+            sudo cp -r "$WORKING_DIR/update.sh" "/usr/local/bin/lctk/update.sh"
+            if [ -e /usr/local/bin/lctk/update.sh ]
+            then
+                echo "Installed update.sh to /usr/local/bin/lctk/update.sh"
+            else
+                echo "Failed to install update.sh"
+                sleep 2
+                exit 0
+            fi
+            sudo cp -r "$WORKING_DIR/uninstall.sh" "/usr/local/bin/lctk/uninstall.sh"
+            if [ -e /usr/local/bin/lctk/uninstall.sh ]
+            then
+                echo "Installed uninstall.sh to /usr/local/bin/lctk/uninstall.sh"
+            else
+                echo "Failed to install uninstall.sh"
+                sleep 2
+                exit 0
+            fi
             chmod +x /usr/local/bin/lctk/start.sh
+            chmod +x /usr/local/bin/lctk/update.sh
+            chmod +x /usr/local/bin/lctk/uninstall.sh
             chmod +x /usr/local/bin/lctk/scripts/*/*.sh
             chmod +x /usr/local/bin/lctk/lib/*.sh
             sudo ln -s /usr/local/bin/lctk/start.sh /usr/local/bin/lctk-start
+            sudo ln -s /usr/local/bin/lctk/update.sh /usr/local/bin/lctk-update
             break
             ;;
         0)

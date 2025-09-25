@@ -36,6 +36,15 @@ then
         sleep 2
         exit 0
     fi
+    sudo rm -rf /usr/local/bin/lctk-update
+    if [ ! -e /usr/local/bin/lctk-update ]
+    then
+        echo "$(colored_text "Uninstalled /usr/local/bin/lctk-update" green)"
+    else
+        echo "$(colored_text "Failed to uninstall /usr/local/bin/lctk-update" red)"
+        sleep 2
+        exit 0
+    fi
 else
     echo "$(colored_text "I don't know where LCTK is installed." red)"
     sleep 2

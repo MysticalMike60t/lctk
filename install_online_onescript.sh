@@ -36,15 +36,17 @@ while true; do
             sudo rm -rf /usr/local/bin/lctk-main
             sudo rm -rf "$WORKING_DIR/lctk.zip"
             sudo rm -rf /usr/local/bin/lctk/install.sh
-            sudo rm -rf /usr/local/bin/lctk/uninstall.sh
             sudo rm -rf /usr/local/bin/lctk/.gitattributes
             sudo rm -rf /usr/local/bin/lctk/README.md
             sudo rm -rf /usr/local/bin/lctk/install_scripts
             sudo rm -rf /usr/local/bin/lctk/.git
             chmod +x /usr/local/bin/lctk/start.sh
+            chmod +x /usr/local/bin/lctk/uninstall.sh
+            chmod +x /usr/local/bin/lctk/update.sh
             chmod +x /usr/local/bin/lctk/scripts/*/*.sh
             chmod +x /usr/local/bin/lctk/lib/*.sh
             sudo ln -s /usr/local/bin/lctk/start.sh /usr/local/bin/lctk-start
+            sudo ln -s /usr/local/bin/lctk/update.sh /usr/local/bin/lctk-update
             break
             ;;
         0)
