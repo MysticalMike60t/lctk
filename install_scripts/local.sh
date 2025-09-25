@@ -9,7 +9,8 @@ while true; do
     echo "Install to:"
     echo ""
     echo "1) /usr/local/bin/lctk"
-    echo "2) Cancel"
+    echo ""
+    echo "0) Cancel"
     echo ""
     read -p "Please enter your choice: " choice
     
@@ -58,8 +59,8 @@ while true; do
             sudo ln -s /usr/local/bin/lctk/start.sh /usr/local/bin/lctk-start
             break
             ;;
-        2)
-            exit 0
+        0)
+            sudo bash "$WORKING_DIR/uninstall.sh"
             break
             ;;
         *)
