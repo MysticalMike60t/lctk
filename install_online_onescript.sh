@@ -14,6 +14,7 @@ while true; do
     echo "Install to:"
     echo ""
     echo "1) /usr/local/bin/lctk"
+    echo ""
     echo "0) Cancel"
     echo ""
     read -p "Please enter your choice: " choice
