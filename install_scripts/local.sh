@@ -54,7 +54,7 @@ while true; do
             fi
             chmod +x /usr/local/bin/lctk/start.sh
             chmod +x /usr/local/bin/lctk/scripts/*/*.sh
-            chmod +x /usr/local/bin/lctk/lib/*/*.sh
+            chmod +x /usr/local/bin/lctk/lib/*.sh
             sudo ln -s /usr/local/bin/lctk/start.sh /usr/local/bin/lctk-start
             break
             ;;
