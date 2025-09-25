@@ -17,3 +17,59 @@ Used to install (depends on local files)
 - `install_scripts/` folder
 
 Any files beginning with `_dev__`
+
+## Usage
+
+### Start
+
+```bash
+lctk-start
+```
+
+### Update
+
+```bash
+lctk-update
+```
+
+### Uninstall
+
+```bash
+sudo bash /usr/local/bin/lctk/uninstall.sh
+```
+
+#### Custom Installations
+
+__Replace `/usr/local/bin/lctk/` with the path to the folder you installed it to.__
+
+```bash
+sudo bash /usr/local/bin/lctk/uninstall.sh
+```
+
+### Checking Version
+
+Returns version and exits
+
+```bash
+lctk-start version
+```
+
+Always has version displayed at the top, and also runs the program (obviously since it is the start command)
+
+```bash
+lctk-start
+```
+
+## Errors
+
+### Line endings
+
+Download and Run `dos2unix` script inside the program folder to fix line ending issues.
+
+#### One-Liner
+
+Run this one-liner to fix it
+
+```bash
+curl -L -o "/usr/local/bin/lctk/_dev__dos2unix.sh" "https://raw.githubusercontent.com/MysticalMike60t/lctk/refs/heads/main/_dev__dos2unix.sh" && cd /usr/local/bin/lctk && sudo bash ./_dev__dos2unix.sh
+```
