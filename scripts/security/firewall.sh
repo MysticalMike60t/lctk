@@ -157,6 +157,8 @@ while true; do
             sudo iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED
             sudo iptables -A INPUT -p icmp -j ACCEPT
             sudo iptables -A INPUT -j REJECT --reject-with icmp-host-unreachable
+
+            sudo bash "$WORKING_DIR/firewall.sh"
             break
             ;;
         0)
