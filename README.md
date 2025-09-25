@@ -2,6 +2,8 @@
 
 ## Install
 
+There are 3 ways to install LCTK:
+
 1. `install_online_onescript.sh`
 2. `git clone https://github.com/MysticalMike60t/lctk.git && cd lctk && sudo bash ./install.sh`
 3. Manually place cloned files (or files from the .tar.xz archives on the release page) in a directory, and make a Symlink for `start.sh` in `/usr/local/bin` (preferrable Symlink name is: `lctk-start`)
