@@ -4,9 +4,29 @@ clear
 
 . "$(dirname "$(readlink -f "$0")")/lib/styles.sh"
 . "$(dirname "$(readlink -f "$0")")/lib/colors.sh"
+. "$(dirname "$(readlink -f "$0")")/lib/info.sh"
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 WORKING_DIR="$SCRIPT_DIR/scripts"
+
+if [ "$1" == "version" ]
+then
+    if [[ "$VERSION_MAJOR" -lt 1 ]]
+    then
+        echo "LCTK Version $(colored_text "$VERSION" yellow)"
+    else
+        echo "LCTK Version $(colored_text "$VERSION" green)"
+    fi
+    exit 0
+else
+    if [[ "$VERSION_MAJOR" -lt 1 ]]
+    then
+        echo "LCTK Version $(colored_text "$VERSION" yellow)"
+    else
+        echo "LCTK Version $(colored_text "$VERSION" green)"
+    fi
+    echo ""
+fi
 
 while true; do
     echo "$(colored_text "Linux Configuration Toolkit" blue)"
