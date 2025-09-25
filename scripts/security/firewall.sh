@@ -81,6 +81,8 @@ while true; do
             sudo ufw --force enable
 
             echo "$(colored_text "Finished installing and configuring basic UFW." green)"
+
+            sudo bash "$WORKING_DIR/firewall.sh"
             break
             ;;
         2)
@@ -137,6 +139,8 @@ while true; do
 
             sudo systemctl enable iptables >/dev/null 2>&1
             sudo systemctl start iptables >/dev/null 2>&1
+
+            sudo bash "$WORKING_DIR/firewall.sh"
             break
             ;;
         3)
