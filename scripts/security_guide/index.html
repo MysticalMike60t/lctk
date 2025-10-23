@@ -1,121 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Security Guide</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div class="container">
-            <h1>Security Guide — Hardening & Remediation</h1>
-            <p class="lead">A concise, actionable checklist for Windows and Linux images. Use the table of contents to jump to sections and copy commands as needed.</p>
-        </div>
+      <div class="container">
+        <h1>Security Guide — Hardening & Remediation</h1>
+        <p class="lead">
+          A concise, actionable checklist for Windows and Linux images. Use the
+          table of contents to jump to sections and copy commands as needed.
+        </p>
+      </div>
     </header>
 
     <nav class="toc container">
-        <strong>Contents:</strong>
-        <a href="#verified">Verified items</a> •
-        <a href="#missing">Missing / commonly-missed</a> •
-        <a href="#other">Other issues</a> •
-        <a href="#linux">Linux notes</a> •
-        <a href="#quick">Quick commands</a> •
-        <a href="#alex">Suggested commands</a>
+      <strong>Contents:</strong>
+      <a href="#checklist">Checklist</a> •
+      <a href="#missing">Missing / commonly-missed</a> •
+      <a href="#other">Other issues</a> • <a href="#linux">Linux notes</a> •
+      <a href="#quick">Quick commands</a> •
+      <a href="#alex">Suggested commands</a> •
+      <a href="#appendix">Appendix</a>
     </nav>
 
     <main class="container">
-        <section id="verified">
-            <h2>Verified items</h2>
-            <p>These items were reviewed and are shown as verified. Each entry includes an optional verification or remediation note.</p>
-            <ol class="checklist">
-                <li><strong>System time & timezone</strong> — Verify system time and timezone; check Security/Event Viewer for time-change events.</li>
-                <li><strong>Credential & audit settings</strong> — Ensure auditing for credential validation is enabled and review failures.</li>
-                <li><strong>Removed unauthorized users</strong> — <code>user1</code>, <code>user2</code> removed.</li>
-                <li><strong>Local accounts</strong> — Users <code>user1</code> and <code>user2</code> are not administrators.</li>
-                <li><strong>Password presence</strong> — User <code>user1</code> has a password set.</li>
-                <li><strong>Created accounts/groups</strong> — Account <code>user1</code> and group <code>user2</code> created; users added to group.</li>
-                <li><strong>Password expiration</strong> — User <code>user1</code> has password expiration enabled.</li>
-                <li><strong>Password length</strong> — A secure minimum password length is enforced.</li>
-                <li><strong>Account lockout</strong> — A lockout threshold exists to slow brute-force attempts.</li>
-                <li><strong>Audit</strong> — Credential validation auditing reported failures (review event logs).</li>
-                <li><strong>System time change restriction</strong> — Users are restricted from changing system time.</li>
-                <li><strong>Firewall</strong> — Firewall protection is enabled.</li>
-                <li><strong>Remote Assistance</strong> — Remote Assistance connections disabled.</li>
-                <li><strong>Removed artifacts</strong> — Affine encrypted text file removed.</li>
-                <li><strong>Removed software</strong> — Wireshark, NetStumbler, PC Cleaner removed.</li>
-            </ol>
-        </section>
+      <section id="checklist">
+        <h2>Security checklist</h2>
+        <p>
+          Use the checklist below to harden Windows and Linux systems. Each item
+          is a short action or verification step.
+        </p>
+        <h3>Windows (examples)</h3>
+        <ul>
+          <li>
+            Disable Guest account:
+            <code>Set-LocalUser -Name Guest -Enabled $false</code>
+          </li>
+          <li>
+            Enable password complexity and history via Group Policy (secpol.msc)
+          </li>
+          <li>
+            Set password minimum/maximum age and history (e.g., history=24, max
+            age=90)
+          </li>
+          <li>Ensure firewall is enabled and appropriate rules are in place</li>
+          <li>Disable Remote Assistance and Remote Desktop if not needed</li>
+          <li>Remove unauthorized software (audit installed programs)</li>
+          <li>
+            Verify users who shouldn't be admins are not in Administrators group
+          </li>
+        </ul>
 
-        <section id="missing">
-            <h2>Missing / commonly-missed items</h2>
-            <p>The following items are commonly overlooked during hardening; verify and remediate as needed.</p>
-            <ul>
-                <li><strong>Guest account disabled</strong>
-                    <div class="note">Remediation (Windows): <code>Set-LocalUser -Name Guest -Enabled $false</code></div>
-                </li>
-                <li><strong>Password complexity enabled</strong>
-                    <div class="note">Remediation (Windows): enable complexity in Group Policy / local security policy (secpol.msc).</div>
-                </li>
-                <li><strong>Password history / age</strong>
-                    <div class="note">Remediation: set Password History (e.g. 24), Minimum age (1 day), Maximum age (90 days) via Group Policy.</div>
-                </li>
-            </ul>
-        </section>
+        <h3>Linux (examples)</h3>
+        <ul>
+          <li>
+            Disable SSH root login and restrict authentication methods in
+            <code>/etc/ssh/sshd_config</code>
+          </li>
+          <li>
+            Remove <code>nullok</code> from PAM
+            (<code>/etc/pam.d/common-auth</code>)
+          </li>
+          <li>Enforce minimum password length and pwquality settings</li>
+          <li>
+            Ensure <code>/etc/shadow</code> perms are restrictive (e.g., 640)
+          </li>
+          <li>
+            Confirm GRUB config is not world-readable and set to 600 if needed
+          </li>
+          <li>Verify UFW/iptables are configured and active</li>
+          <li>Remove unneeded services like nginx if not used</li>
+          <li>
+            Remove prohibited packages (e.g., <code>aisleriot</code>) and
+            autoremove
+          </li>
+        </ul>
+      </section>
 
-        <section id="other">
-            <h2>Other common issues to check</h2>
-            <ul>
-                <li>Remote Desktop disabled where not required (different from Remote Assistance).</li>
-                <li>Unnecessary shares removed (for example, <code>C:\Users\Public</code>).</li>
-                <li>Additional unauthorized software beyond those already removed.</li>
-            </ul>
-        </section>
+      <section id="missing">
+        <h2>Missing / commonly-missed items</h2>
+        <p>
+          The following items are commonly overlooked during hardening; verify
+          and remediate as needed.
+        </p>
+        <ul>
+          <li>
+            <strong>Guest account disabled</strong>
+            <div class="note">
+              Remediation (Windows):
+              <code>Set-LocalUser -Name Guest -Enabled $false</code>
+            </div>
+          </li>
+          <li>
+            <strong>Password complexity enabled</strong>
+            <div class="note">
+              Remediation (Windows): enable complexity in Group Policy / local
+              security policy (secpol.msc).
+            </div>
+          </li>
+          <li>
+            <strong>Password history / age</strong>
+            <div class="note">
+              Remediation: set Password History (e.g. 24), Minimum age (1 day),
+              Maximum age (90 days) via Group Policy.
+            </div>
+          </li>
+        </ul>
+      </section>
 
-        <section id="linux">
-            <h2>Additional Linux notes & remediation</h2>
-            <p>Actionable checks and commands for Linux systems. Run these as root or with sudo where appropriate.</p>
-            <ul class="linux-list">
-                <li>
-                    <strong>SSH</strong> — Verify <code>/etc/ssh/sshd_config</code> has <code>PermitRootLogin no</code> and appropriate <code>PasswordAuthentication</code> settings.
-                    <div class="note">Verify: <code>sudo grep -E "^PermitRootLogin|^PasswordAuthentication" /etc/ssh/sshd_config</code></div>
-                    <div class="note">Remediate: update file and <code>sudo systemctl restart sshd</code>.</div>
-                </li>
-                <li>
-                    <strong>Null passwords</strong> — Remove <code>nullok</code> from <code>/etc/pam.d/common-auth</code>.
-                    <div class="note">Example: edit the line to remove <code>nullok</code> so it reads: <code>auth [success=2 default=ignore] pam_unix.so</code></div>
-                </li>
-                <li><strong>TCP SYN cookies</strong> — Verify: <code>sysctl net.ipv4.tcp_syncookies</code></li>
-                <li><strong>Minimum password length</strong> — Verify PAM pwquality settings (e.g. <code>/etc/security/pwquality.conf</code>).</li>
-                <li><strong>User permissions</strong> — Check for incorrect perms on home dirs: <code>find /home -maxdepth 2 -perm -o+w -exec ls -ld {} \;</code></li>
-                <li><strong>Insecure passwords</strong> — Force resets for flagged accounts and enforce complexity/history.</li>
-                <li><strong>UFW</strong> — Verify state: <code>sudo ufw status verbose</code></li>
-                <li><strong>/etc/shadow perms</strong> — Ensure permissions are restrictive: <code>sudo chmod 640 /etc/shadow && ls -alF /etc/shadow</code></li>
-                <li><strong>GRUB perms</strong> — Ensure <code>/boot/grub/grub.cfg</code> is not world-readable: <code>ls -alF /boot/grub/grub.cfg</code> and <code>sudo chmod 600 /boot/grub/grub.cfg</code></li>
-                <li><strong>nginx</strong> — If not used: <code>sudo systemctl stop nginx && sudo systemctl disable nginx</code></li>
-                <li><strong>Automatic updates</strong> — Verify unattended-upgrades, dnf-automatic, or similar is configured.</li>
-                <li><strong>Applications updated</strong> — Confirm Firefox/Thunderbird updates via package manager logs.</li>
-                <li><strong>AisleRiot</strong> — Remove if prohibited: <code>sudo apt remove aisleriot && sudo apt autoremove -y</code></li>
-                <li><strong>SSH root login</strong> — Verify <code>PermitRootLogin no</code> in <code>/etc/ssh/sshd_config</code>.</li>
-                <li class="note-muted">When automating, prefer POSIX tools, check for required commands, and test across target distros to avoid glibc/tooling errors.</li>
-            </ul>
-        </section>
+      <section id="other">
+        <h2>Other common issues to check</h2>
+        <ul>
+          <li>
+            Remote Desktop disabled where not required (different from Remote
+            Assistance).
+          </li>
+          <li>
+            Unnecessary shares removed (for example,
+            <code>C:\Users\Public</code>).
+          </li>
+          <li>
+            Additional unauthorized software beyond those already removed.
+          </li>
+        </ul>
+      </section>
 
-        <section id="quick">
-            <h2>Quick remediation commands</h2>
-            <p>Small, copyable examples (run elevated / as appropriate for the OS):</p>
-            <div class="cmd">
-                <pre>Set-LocalUser -Name Guest -Enabled $false
+      <section id="linux">
+        <h2>Additional Linux notes & remediation</h2>
+        <p>
+          Actionable checks and commands for Linux systems. Run these as root or
+          with sudo where appropriate.
+        </p>
+        <ul class="linux-list">
+          <li>
+            <strong>SSH</strong> — Verify <code>/etc/ssh/sshd_config</code> has
+            <code>PermitRootLogin no</code> and appropriate
+            <code>PasswordAuthentication</code> settings.
+            <div class="note">
+              Verify:
+              <code
+                >sudo grep -E "^PermitRootLogin|^PasswordAuthentication"
+                /etc/ssh/sshd_config</code
+              >
+            </div>
+            <div class="note">
+              Remediate: update file and
+              <code>sudo systemctl restart sshd</code>.
+            </div>
+          </li>
+          <li>
+            <strong>Null passwords</strong> — Remove <code>nullok</code> from
+            <code>/etc/pam.d/common-auth</code>.
+            <div class="note">
+              Example: edit the line to remove <code>nullok</code> so it reads:
+              <code>auth [success=2 default=ignore] pam_unix.so</code>
+            </div>
+          </li>
+          <li>
+            <strong>TCP SYN cookies</strong> — Verify:
+            <code>sysctl net.ipv4.tcp_syncookies</code>
+          </li>
+          <li>
+            <strong>Minimum password length</strong> — Verify PAM pwquality
+            settings (e.g. <code>/etc/security/pwquality.conf</code>).
+          </li>
+          <li>
+            <strong>User permissions</strong> — Check for incorrect perms on
+            home dirs:
+            <code>find /home -maxdepth 2 -perm -o+w -exec ls -ld {} \;</code>
+          </li>
+          <li>
+            <strong>Insecure passwords</strong> — Force resets for flagged
+            accounts and enforce complexity/history.
+          </li>
+          <li>
+            <strong>UFW</strong> — Verify state:
+            <code>sudo ufw status verbose</code>
+          </li>
+          <li>
+            <strong>/etc/shadow perms</strong> — Ensure permissions are
+            restrictive:
+            <code>sudo chmod 640 /etc/shadow && ls -alF /etc/shadow</code>
+          </li>
+          <li>
+            <strong>GRUB perms</strong> — Ensure
+            <code>/boot/grub/grub.cfg</code> is not world-readable:
+            <code>ls -alF /boot/grub/grub.cfg</code> and
+            <code>sudo chmod 600 /boot/grub/grub.cfg</code>
+          </li>
+          <li>
+            <strong>nginx</strong> — If not used:
+            <code
+              >sudo systemctl stop nginx && sudo systemctl disable nginx</code
+            >
+          </li>
+          <li>
+            <strong>Automatic updates</strong> — Verify unattended-upgrades,
+            dnf-automatic, or similar is configured.
+          </li>
+          <li>
+            <strong>Applications updated</strong> — Confirm Firefox/Thunderbird
+            updates via package manager logs.
+          </li>
+          <li>
+            <strong>AisleRiot</strong> — Remove if prohibited:
+            <code>sudo apt remove aisleriot && sudo apt autoremove -y</code>
+          </li>
+          <li>
+            <strong>SSH root login</strong> — Verify
+            <code>PermitRootLogin no</code> in
+            <code>/etc/ssh/sshd_config</code>.
+          </li>
+          <li class="note-muted">
+            When automating, prefer POSIX tools, check for required commands,
+            and test across target distros to avoid glibc/tooling errors.
+          </li>
+        </ul>
+      </section>
+
+      <section id="quick">
+        <h2>Quick remediation commands</h2>
+        <p>
+          Small, copyable examples (run elevated / as appropriate for the OS):
+        </p>
+        <div class="cmd">
+          <pre>
+Set-LocalUser -Name Guest -Enabled $false
 secedit /export /cfg C:\temp\secpol.cfg
 sudo chmod 640 /etc/shadow && ls -alF /etc/shadow
 sudo chmod 600 /boot/grub/grub.cfg
 sudo systemctl stop nginx && sudo systemctl disable nginx
-sudo apt remove aisleriot && sudo apt autoremove -y</pre>
-            </div>
-        </section>
+sudo apt remove aisleriot && sudo apt autoremove -y</pre
+          >
+        </div>
+      </section>
 
-        <section id="alex">
-            <h2>Suggested commands (original notes)</h2>
-            <pre>/etc/pam.d/common-auth
+      <section id="alex">
+        <h2>Suggested commands (original notes)</h2>
+        <pre>
+/etc/pam.d/common-auth
 
 auth [success=2 default=ignore] pam_unix.so nullok (remove "nullok")
 
@@ -127,32 +253,133 @@ sudo chmod 600 /boot/grub/grub.cfg
 sudo systemctl stop nginx
 sudo systemctl disable nginx
 sudo apt remove aisleriot
-sudo apt autoremove -y</pre>
-            <p class="small"><em>Note: personal notes were provided; retained here for reference.</em></p>
-        </section>
+sudo apt autoremove -y</pre
+        >
+        <p class="small">
+          <em
+            >Note: personal notes were provided; retained here for
+            reference.</em
+          >
+        </p>
+      </section>
+
+      <section id="appendix">
+        <h2>Appendix: Observed system notes</h2>
+        <p>
+          The following were observed or previously noted during a review. Keep
+          these for reference but they are not part of the primary checklist.
+        </p>
+        <ol>
+          <li>
+            System time & timezone — check for unauthorized changes (Event
+            Viewer / system logs).
+          </li>
+          <li>
+            Credential & audit settings — auditing of credential validation
+            reported failures.
+          </li>
+          <li>
+            Removed unauthorized users and software — noted as cleaned up.
+          </li>
+          <li>
+            User account and group changes — recorded created accounts and group
+            membership updates.
+          </li>
+        </ol>
+      </section>
     </main>
 
     <footer class="container footer">
-        <p>Summary: this page contains verified items and actionable remediation steps for Windows and Linux images. Use the sections above to perform checks and apply fixes. For automation, I can add scripts that run these checks across multiple distributions and Windows systems.</p>
+      <p>
+        Summary: this page contains actionable remediation steps for Windows and
+        Linux. Use the sections above to perform checks and apply fixes.
+      </p>
+      <p>
+        Most of the information on this page was gathered from testing and
+        working on Linux and Windows machines, however it was compiled and made
+        into this HTML page via AI for efficiency (this will be hand-made in the
+        future).
+      </p>
     </footer>
 
     <style>
-        :root{font-family:Segoe UI, Roboto, Arial, sans-serif;color:#111}
-        body{margin:0;padding:20px;background:#f7f7f9}
-        .container{max-width:980px;margin:18px auto;padding:0 18px}
-        header{background:#fff;padding:18px 0;border-bottom:1px solid #e4e4e6}
-        .lead{color:#333;margin-top:6px}
-        .toc{background:#fff;padding:10px 18px;border-bottom:1px solid #e6e6ea}
-        nav.toc a{margin-right:8px;color:#0366d6;text-decoration:none}
-        main{background:#fff;padding:20px;margin-top:12px;border-radius:6px;border:1px solid #e6e6ea}
-        h2{border-bottom:1px solid #eef; padding-bottom:6px}
-        .checklist li{margin:8px 0}
-        .note{background:#f1f8ff;border-left:3px solid #9ad0ff;padding:8px;margin-top:6px}
-        .note-muted{color:#666;font-size:0.95em}
-        pre{background:#0b0b0b;color:#e6e6e6;padding:12px;overflow:auto;border-radius:4px}
-        .cmd pre{background:#111;color:#fff}
-        .small{font-size:0.9em;color:#555}
-        footer.footer{margin-top:14px;padding:14px 10px;color:#333}
+      :root {
+        font-family: Segoe UI, Roboto, Arial, sans-serif;
+        color: #111;
+      }
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #f7f7f9;
+      }
+      .container {
+        max-width: 980px;
+        margin: 18px auto;
+        padding: 0 18px;
+      }
+      header {
+        background: #fff;
+        padding: 18px 0;
+        border-bottom: 1px solid #e4e4e6;
+      }
+      .lead {
+        color: #333;
+        margin-top: 6px;
+      }
+      .toc {
+        background: #fff;
+        padding: 10px 18px;
+        border-bottom: 1px solid #e6e6ea;
+      }
+      nav.toc a {
+        margin-right: 8px;
+        color: #0366d6;
+        text-decoration: none;
+      }
+      main {
+        background: #fff;
+        padding: 20px;
+        margin-top: 12px;
+        border-radius: 6px;
+        border: 1px solid #e6e6ea;
+      }
+      h2 {
+        border-bottom: 1px solid #eef;
+        padding-bottom: 6px;
+      }
+      .checklist li {
+        margin: 8px 0;
+      }
+      .note {
+        background: #f1f8ff;
+        border-left: 3px solid #9ad0ff;
+        padding: 8px;
+        margin-top: 6px;
+      }
+      .note-muted {
+        color: #666;
+        font-size: 0.95em;
+      }
+      pre {
+        background: #0b0b0b;
+        color: #e6e6e6;
+        padding: 12px;
+        overflow: auto;
+        border-radius: 4px;
+      }
+      .cmd pre {
+        background: #111;
+        color: #fff;
+      }
+      .small {
+        font-size: 0.9em;
+        color: #555;
+      }
+      footer.footer {
+        margin-top: 14px;
+        padding: 14px 10px;
+        color: #333;
+      }
     </style>
-</body>
+  </body>
 </html>
