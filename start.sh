@@ -59,7 +59,7 @@ while true; do
             break
             ;;
         5)
-            xdg-open "$WORKING_DIR/security_guide/index.html"
+            firefox "$WORKING_DIR/security_guide/index.html"
             break
             ;;
         0)
