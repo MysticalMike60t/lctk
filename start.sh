@@ -35,6 +35,7 @@ while true; do
     echo "   2) Security Options"
     echo "   3) Storage Options"
     echo "   4) Network Options"
+    echo "   5) Security Guide"
     echo ""
     echo "   $(colored_text "0) Quit" red)"
     echo ""
@@ -55,6 +56,10 @@ while true; do
             ;;
         4)
             sudo bash "$WORKING_DIR/network/index.sh"
+            break
+            ;;
+        5)
+            xdg-open "$WORKING_DIR/security_guide/index.html"
             break
             ;;
         0)
